@@ -1,18 +1,13 @@
 const express =  require('express');
-const path = require('path');
-
-//Retrieve the project main directory path
-const mainDir = require('../util/path');
-
 const router = express.Router();
 
+
+
+const controllerProducts = require('../controllers/products');
+
+
 //Router with GET method with the '/add-product' path that send the add-product.html to the response
-router.get('/add-product', (req, res, next) => {
-    res.sendFile(path.join(mainDir, 'views', 'add-product.html'));
-});
+router.get('/add-product', controllerProducts.controllerGetProducts);
 //Router with POST method with the '/add-product' path that send the add-product.html to the response
-router.post('/add-product', (req, res, next) => {
-    console.log(req.body)
-    res.render(path.join(mainDir, 'views', 'add-product.html'));
-});
-module.exports = router;
+router.post('/add-product', controllerProducts.controllerPostProducts);
+exports.router = router;

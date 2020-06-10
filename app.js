@@ -4,9 +4,12 @@ const path = require('path');
 
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
+const route404 = require('./controllers/error')
 
 const app = express();
 
+app.set('view engine', 'pug');
+app.set('views', 'views');
 //Allow parsing incoming requests with urlencoded payloads to send HTML response
 app.use(express.urlencoded({extended:true}));
 
@@ -14,13 +17,11 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 //Serve the different routes using any method
-app.use('/admin', adminRoutes);
+app.use('/admin', adminRoutes.router);
 app.use(shopRoutes);
 
 //Send the page-not-found page
-app.use((req, res, next) =>{
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-})
+app.use(route404.error404);
 
 
 
